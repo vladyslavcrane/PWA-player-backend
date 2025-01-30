@@ -1,0 +1,42 @@
+version: "3.9"
+
+
+services:
+  player_postgres:
+    image: postgres:15
+    container_name: player_postgres
+    volumes:
+      - ~/raccoon/pdp-project/pg_data/player:/var/lib/postgresql/data
+    env_file:
+      - .env
+  player_backend:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    image: player_backend:latest
+    container_name: player_backend
+    depends_on:
+      - player_postgres
+    volumes:
+      - static_volume:/player/music_player_backend/static
+      - media_volume:/player/music_player_backend/media
+    env_file:
+      - .env
+    command: >
+      bash -c "./manage.py collectstatic --noinput && ./manage.py migrate && ./manage.py create_superuser && gunicorn -b 0.0.0.0:8000 music_player_backend.wsgi:application"
+  nginx:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx/
+    container_name: player_nginx
+    image: player_nginx
+    volumes:
+      - static_volume:/player/static
+      - media_volume:/player/media
+    depends_on:
+      - player_backend
+    ports:
+      - "${NGINX_EXTERNAL_PORT}:80"
+volumes:
+  static_volume:
+  media_volume:
