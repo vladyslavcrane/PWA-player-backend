@@ -1,4 +1,5 @@
-PDP project:
+PDP project
+
 Goals:
 
 - Progressive Web App + offline site work
