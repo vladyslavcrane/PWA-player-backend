@@ -31,4 +31,4 @@ COPY --chown=player:player . .
 
 RUN pip install -r requirements.txt
 
-CMD ["gunicorn", "-b", "0.0.0.0:8001", "music_player_backend.wsgi:application"]
+CMD ["gunicorn", "-b", "0.0.0.0:8001", "media_player.wsgi:application"]

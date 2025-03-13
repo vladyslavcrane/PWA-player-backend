@@ -5,7 +5,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'music_player_backend.settings.default_settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'media_player.settings.default_settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -18,12 +18,12 @@ services:
     depends_on:
       - player_postgres
     volumes:
-      - static_volume:/player/music_player_backend/static
-      - media_volume:/player/music_player_backend/media
+      - static_volume:/player/media_player/static
+      - media_volume:/player/media_player/media
     env_file:
       - .env
     command: >
-      bash -c "./manage.py collectstatic --noinput && ./manage.py migrate && ./manage.py create_superuser && gunicorn -b 0.0.0.0:8000 music_player_backend.wsgi:application"
+      bash -c "./manage.py collectstatic --noinput && ./manage.py migrate && ./manage.py create_superuser && gunicorn -b 0.0.0.0:8000 media_player.wsgi:application"
   nginx:
     build:
       dockerfile: ./Dockerfile
